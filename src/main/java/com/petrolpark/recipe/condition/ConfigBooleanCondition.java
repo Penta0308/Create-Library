@@ -21,8 +21,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
-import java.util.ArrayList;
-
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class ConfigBooleanCondition implements ICondition {
 
