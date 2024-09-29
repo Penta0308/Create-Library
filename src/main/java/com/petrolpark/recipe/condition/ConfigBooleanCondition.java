@@ -1,9 +1,8 @@
 package com.petrolpark.recipe.condition;
 
-import org.apache.commons.compress.utils.Lists;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.petrolpark.Petrolpark;
@@ -21,6 +20,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
+
+import java.util.ArrayList;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class ConfigBooleanCondition implements ICondition {
@@ -68,7 +69,7 @@ public class ConfigBooleanCondition implements ICondition {
             if (!json.has("mod")) throw new JsonSyntaxException("Must specify a mod ID");
             String path = GsonHelper.getAsString(json, "value");
             String modId = GsonHelper.getAsString(json, "mod");
-            ConfigValue<?> configValue = ConfigHelper.findForgeConfigSpecFor(ModConfig.Type.COMMON, modId).getValues().get(Lists.newArrayList(Splitter.on(".").split(path).iterator()));
+            ConfigValue<?> configValue = ConfigHelper.findForgeConfigSpecFor(ModConfig.Type.COMMON, modId).getValues().get(ImmutableList.copyOf(Splitter.on(".").split(path)));
             if (!(configValue instanceof ForgeConfigSpec.BooleanValue booleanValue)) throw new JsonSyntaxException("The config must be a boolean type.");
             return new ConfigBooleanCondition(modId, booleanValue);
         };
